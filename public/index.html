@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File System Node Graph Visualizer</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- Header with controls -->
+        <header>
+            <div class="header-content">
+                <h1>File System Visualizer</h1>
+                <div class="controls">
+                    <div class="path-display">
+                        <span class="path-label">Current Path:</span>
+                        <span id="current-path" class="path-text">/</span>
+                    </div>
+                    <div class="control-buttons">
+                        <button id="parent-btn" class="control-btn" title="Go to parent directory">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M15 18l-6-6 6-6"/>
+                            </svg>
+                            Parent
+                        </button>
+                        <button id="home-btn" class="control-btn" title="Go to home directory">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                                <polyline points="9 22 9 12 15 12 15 22"/>
+                            </svg>
+                            Home
+                        </button>
+                        <button id="reset-view-btn" class="control-btn" title="Reset view">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <circle cx="12" cy="12" r="3"/>
+                            </svg>
+                            Reset View
+                        </button>
+                        <button id="settings-btn" class="control-btn" title="Graph Settings">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M12 8v4l3 3"/>
+                            </svg>
+                            Graph Settings
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main visualization area -->
+        <main>
+            <div id="graph-container">
+                <svg id="graph"></svg>
+                
+                <!-- Zoom controls -->
+                <div class="zoom-controls">
+                    <button id="zoom-in" class="zoom-btn" title="Zoom in">+</button>
+                    <button id="zoom-out" class="zoom-btn" title="Zoom out">−</button>
+                </div>
+
+                <!-- Loading indicator -->
+                <div id="loading" class="loading hidden">
+                    <div class="spinner"></div>
+                    <p>Loading file system...</p>
+                </div>
+            </div>
+        </main>
+
+        <!-- Info panel -->
+        <aside id="info-panel" class="info-panel hidden">
+            <div class="info-header">
+                <h3>Node Information</h3>
+                <button id="close-info" class="close-btn">×</button>
+            </div>
+            <div class="info-content">
+                <div class="info-item">
+                    <span class="info-label">Name:</span>
+                    <span id="info-name" class="info-value"></span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Type:</span>
+                    <span id="info-type" class="info-value"></span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Path:</span>
+                    <span id="info-path" class="info-value"></span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Size:</span>
+                    <span id="info-size" class="info-value"></span>
+                </div>
+                <div class="info-actions">
+                    <button id="navigate-to" class="action-btn hidden">Navigate Here</button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Search overlay -->
+        <div id="search-overlay" class="search-overlay hidden">
+            <div class="search-container">
+                <input type="text" id="search-input" class="search-input" placeholder="Search for files or folders...">
+                <div id="search-results" class="search-results"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Graph Settings Pop-Out Menu -->
+    <aside id="settings-panel" class="settings-panel hidden">
+        <div class="settings-header">
+            <h3>Graph Settings</h3>
+            <button id="close-settings" class="close-btn">×</button>
+        </div>
+        <div class="settings-content">
+            <div class="settings-item">
+                <label for="charge-strength">Node Repulsion</label>
+                <input type="range" id="charge-strength" min="-1000" max="0" step="10" value="-300">
+                <span id="charge-strength-value">-300</span>
+            </div>
+            <div class="settings-item">
+                <label for="link-distance">Link Distance</label>
+                <input type="range" id="link-distance" min="10" max="200" step="1" value="50">
+                <span id="link-distance-value">50</span>
+            </div>
+            <div class="settings-item">
+                <label for="collision-radius">Collision Radius</label>
+                <input type="range" id="collision-radius" min="10" max="100" step="1" value="30">
+                <span id="collision-radius-value">30</span>
+            </div>
+        </div>
+    </aside>
+
+    <script src="app.js"></script>
+</body>
+</html> 
