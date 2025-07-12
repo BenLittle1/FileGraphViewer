@@ -2,19 +2,69 @@
   "name": "foldernodegraphs",
   "version": "1.0.0",
   "description": "Interactive file system visualizer using D3.js force-directed graphs",
-  "main": "server.js",
+  "main": "electron-main.js",
   "scripts": {
     "start": "node server.js",
+    "electron": "electron .",
+    "electron-dev": "electron . --dev",
+    "build": "electron-builder",
+    "build-mac": "electron-builder --mac",
+    "dist": "electron-builder --mac --publish=never",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["filesystem", "visualization", "d3", "force-directed", "graph"],
+  "keywords": [
+    "filesystem",
+    "visualization",
+    "d3",
+    "force-directed",
+    "graph",
+    "electron",
+    "macos"
+  ],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
+  "devDependencies": {
+    "electron": "^28.3.3",
+    "electron-builder": "^24.0.0"
+  },
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "fs-extra": "^11.3.0",
+    "install": "^0.13.0",
+    "npm": "^11.4.2",
     "path": "^0.12.7"
+  },
+  "build": {
+    "appId": "com.benlittle.foldernodegraphs",
+    "productName": "File System Visualizer",
+    "directories": {
+      "output": "dist"
+    },
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        }
+      ],
+      "identity": null,
+      "entitlements": null,
+      "entitlementsInherit": null,
+      "gatekeeperAssess": false,
+      "hardenedRuntime": false
+    },
+    "files": [
+      "electron-main.js",
+      "server.js",
+      "public/**/*",
+      "node_modules/**/*",
+      "package.json"
+    ]
   }
 }
